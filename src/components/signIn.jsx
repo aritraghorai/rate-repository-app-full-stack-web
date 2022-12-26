@@ -3,6 +3,11 @@ import { Formik } from "formik";
 import theme from "../theme";
 import * as yup from "yup";
 import Formik_Form_Input from "./Formik_Form_Input";
+import useSignIn from "../utils/hooks/useSignIn";
+import { useNavigate } from "react-router-native";
+import { useApolloClient } from "@apollo/client";
+import useAuthStorage from "../utils/hooks/useAuthStorage";
+import { useEffect } from "react";
 
 const initialValues = {
   username: "",
@@ -52,8 +57,28 @@ const validateSchema = yup.object({
 });
 
 const SignIn = () => {
-  const onSubmit = (values) => {
-    console.log(values);
+  const [signInFun, result] = useSignIn();
+  const navigate = useNavigate();
+  const apppoloClient = useApolloClient();
+  const authStorageContext = useAuthStorage();
+
+  useEffect(() => {
+    if (result.data) {
+      authStorageContext.addToken(result?.data?.authenticate.accessToken);
+      navigate("/");
+      apppoloClient.resetStore();
+    }
+  }, [result.data]);
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+    try {
+      await signInFun({ username, password });
+      // console.log(result.data.authenticate.accessToken);
+      // await authStorageContext.addToken(result?.data?.authenticate.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

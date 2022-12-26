@@ -2,6 +2,7 @@ import { View, StyleSheet, Pressable, Text, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import { useNavigate } from "react-router-native";
 import { font } from "../theme";
+import useAuthStorage from "../utils/hooks/useAuthStorage";
 
 const styles = StyleSheet.create({
   container: {
@@ -23,6 +24,8 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const navigate = useNavigate();
+  const authStorage = useAuthStorage();
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
@@ -33,13 +36,23 @@ const AppBar = () => {
         >
           <Text style={styles.text}>{"Repositories"}</Text>
         </Pressable>
-        <Pressable
-          onPress={() => {
-            navigate("/signIn");
-          }}
-        >
-          <Text style={styles.text}>Sign In</Text>
-        </Pressable>
+        {authStorage.state.token ? (
+          <Pressable
+            onPress={() => {
+              navigate("/me");
+            }}
+          >
+            <Text style={styles.text}>Sign Out</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            onPress={() => {
+              navigate("/signIn");
+            }}
+          >
+            <Text style={styles.text}>Sign In</Text>
+          </Pressable>
+        )}
       </ScrollView>
     </View>
   );
