@@ -37,21 +37,46 @@ const AppBar = () => {
           <Text style={styles.text}>{"Repositories"}</Text>
         </Pressable>
         {authStorage.state.token ? (
-          <Pressable
-            onPress={() => {
-              navigate("/me");
-            }}
-          >
-            <Text style={styles.text}>Sign Out</Text>
-          </Pressable>
+          <>
+            <Pressable
+              onPress={() => {
+                navigate("/me");
+              }}
+            >
+              <Text style={styles.text}>Sign Out</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                navigate("/my_reviews");
+              }}
+            >
+              <Text style={styles.text}>My Reviews</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                navigate("/create_review");
+              }}
+            >
+              <Text style={styles.text}>Create Review</Text>
+            </Pressable>
+          </>
         ) : (
-          <Pressable
-            onPress={() => {
-              navigate("/signIn");
-            }}
-          >
-            <Text style={styles.text}>Sign In</Text>
-          </Pressable>
+          <>
+            <Pressable
+              onPress={() => {
+                navigate("/signIn");
+              }}
+            >
+              <Text style={styles.text}>Sign In</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                navigate("/signUp");
+              }}
+            >
+              <Text style={styles.text}>Sign Up</Text>
+            </Pressable>
+          </>
         )}
       </ScrollView>
     </View>

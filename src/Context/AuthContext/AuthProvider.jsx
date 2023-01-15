@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {});
   const authStorage = new AuthStorage("auth");
   const addToken = useCallback(async (token) => {
-    console.info("Add" + token);
+    console.log("Auth", token);
     await authStorage.setAccessToken(token);
     return dispatch({
       type: actions.SET_TOKEN,
@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
     });
   }, []);
   const removeToken = useCallback(async () => {
-    console.log("remoe");
     await authStorage.removeAccessToken();
     return dispatch({
       type: actions.REMOVE_TOKEN,

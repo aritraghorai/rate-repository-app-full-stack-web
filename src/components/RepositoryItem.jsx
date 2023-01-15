@@ -9,9 +9,11 @@ export default function RepositoryItem({
   forksCount,
   reviewCount,
   ratingAverage,
+  children,
 }) {
   return (
     <View
+      testID="repositoryItem"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -29,6 +31,7 @@ export default function RepositoryItem({
       >
         <View>
           <Image
+            testID="repository_image"
             style={{
               height: 60,
               width: 60,
@@ -43,15 +46,20 @@ export default function RepositoryItem({
         </View>
         <View>
           <Text
+            testID="name"
             style={{ fontWeight: "bold", marginVertical: 6, fontFamily: font }}
           >
             {fullName}
           </Text>
-          <Text style={{ marginVertical: 10, fontFamily: font }}>
+          <Text
+            testID="description"
+            style={{ marginVertical: 10, fontFamily: font }}
+          >
             {description}
           </Text>
           <View style={{ alignItems: "baseline" }}>
             <Text
+              testID="language"
               style={{
                 marginTop: 2,
                 marginBottom: 10,
@@ -69,22 +77,33 @@ export default function RepositoryItem({
       </View>
       <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold" }}>{stargazersCount}k</Text>
-          <Text style={{ color: theme.colors.textSecondary }}>Stars</Text>
+          <Text style={{ fontWeight: "bold" }} testID="stargazersCount">
+            {stargazersCount}k
+          </Text>
+          <Text style={{ color: theme.colors.textSecondary }} testID="stars">
+            Stars
+          </Text>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold" }}>{forksCount}k</Text>
+          <Text style={{ fontWeight: "bold" }} testID="forksCount">
+            {forksCount}k
+          </Text>
           <Text style={{ color: theme.colors.textSecondary }}>Forks</Text>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold" }}>{reviewCount}</Text>
+          <Text style={{ fontWeight: "bold" }} testID="reviewCount">
+            {reviewCount}
+          </Text>
           <Text style={{ color: theme.colors.textSecondary }}>Reviews</Text>
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ fontWeight: "bold" }}>{ratingAverage}</Text>
+          <Text style={{ fontWeight: "bold" }} testID="ratingAverage">
+            {ratingAverage}
+          </Text>
           <Text style={{ color: theme.colors.textSecondary }}>Rating</Text>
         </View>
       </View>
+      {children}
     </View>
   );
 }

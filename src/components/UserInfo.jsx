@@ -1,5 +1,5 @@
 import { useApolloClient, useQuery } from "@apollo/client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { useNavigate } from "react-router-native";
 import theme from "../theme";
@@ -21,13 +21,38 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: theme.colors.primary,
   },
+  text: {
+    padding: 10,
+    borderRadius: 5,
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    borderWidth: 1,
+    margin: 10,
+    fontWeight: "500",
+    fontSize: 30,
+    alignContent: "center",
+    color: "bloack",
+  },
 });
 
 const UserInfo = () => {
-  const { data, loading } = useQuery(query.USER_DETAIL);
+  const { data, loading } = useQuery(query.USER_DETAIL, {
+    fetchPolicy: "network-only",
+  });
+  const navigate = useNavigate();
   const authStorage = useAuthStorage();
   const appoloClient = useApolloClient();
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data?.me === null) {
+      authStorage.removeToken();
+      appoloClient.resetStore();
+      navigate("/");
+    }
+  }, [data]);
+
   if (loading) {
     return (
       <View>
@@ -40,13 +65,10 @@ const UserInfo = () => {
     appoloClient.resetStore();
     navigate("/");
   };
-  if (data) {
-    console.log(data);
-  }
 
   return (
     <View>
-      <Text>{}</Text>
+      <Text style={styles.text}>{data?.me.username}</Text>
       <Pressable onPress={onSubmit} style={styles.button}>
         <Text style={{ fontWeight: "500", fontSize: 30, color: "#fff" }}>
           Sign Out
